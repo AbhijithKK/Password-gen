@@ -16,8 +16,18 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
+    async Home() {
+        const data = await this.userService.GetHome();
+        return data;
+    }
 };
 exports.UserController = UserController;
+__decorate([
+    (0, common_1.Get)('/home'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "Home", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

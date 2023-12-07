@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const user_module_1 = require("./user/user.module");
+const database_providers_1 = require("./database/database.providers");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -16,7 +17,8 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [user_module_1.UserModule],
         controllers: [],
-        providers: [],
+        providers: [...database_providers_1.databaseProviders],
+        exports: [...database_providers_1.databaseProviders],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
