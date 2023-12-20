@@ -15,19 +15,19 @@ let UsrModel = class UsrModel extends sequelize_typescript_1.Model {
 };
 exports.UsrModel = UsrModel;
 __decorate([
-    sequelize_typescript_1.Column,
     sequelize_typescript_1.AutoIncrement,
+    sequelize_typescript_1.PrimaryKey,
+    sequelize_typescript_1.Column,
     __metadata("design:type", Number)
 ], UsrModel.prototype, "id", void 0);
 __decorate([
     sequelize_typescript_1.Column,
-    sequelize_typescript_1.IsNull,
     __metadata("design:type", String)
 ], UsrModel.prototype, "name", void 0);
 __decorate([
-    sequelize_typescript_1.Column,
     sequelize_typescript_1.Unique,
     sequelize_typescript_1.IsEmail,
+    sequelize_typescript_1.Column,
     __metadata("design:type", String)
 ], UsrModel.prototype, "email", void 0);
 __decorate([
@@ -39,6 +39,8 @@ __decorate([
     __metadata("design:type", String)
 ], UsrModel.prototype, "image", void 0);
 exports.UsrModel = UsrModel = __decorate([
-    sequelize_typescript_1.Table
+    (0, sequelize_typescript_1.Table)({
+        tableName: 'userdetais', timestamps: true
+    })
 ], UsrModel);
 //# sourceMappingURL=User.model.js.map

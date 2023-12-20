@@ -6,21 +6,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserModule = void 0;
+exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
-const user_service_1 = require("./user.service");
-const user_controller_1 = require("./user.controller");
-const sequelize_1 = require("@nestjs/sequelize");
-const User_model_1 = require("../database/Models/User.model");
-let UserModule = class UserModule {
+let AuthService = class AuthService {
 };
-exports.UserModule = UserModule;
-exports.UserModule = UserModule = __decorate([
-    (0, common_1.Module)({
-        imports: [sequelize_1.SequelizeModule.forFeature([User_model_1.UsrModel])],
-        controllers: [user_controller_1.UserController],
-        providers: [user_service_1.UserService,],
-        exports: [sequelize_1.SequelizeModule]
-    })
-], UserModule);
-//# sourceMappingURL=user.module.js.map
+exports.AuthService = AuthService;
+exports.AuthService = AuthService = __decorate([
+    (0, common_1.Injectable)()
+], AuthService);
+//# sourceMappingURL=auth.service.js.map
