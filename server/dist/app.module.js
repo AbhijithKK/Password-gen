@@ -12,6 +12,7 @@ const user_module_1 = require("./user/user.module");
 const sequelize_1 = require("@nestjs/sequelize");
 const User_model_1 = require("./database/Models/User.model");
 const auth_module_1 = require("./auth/auth.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -25,7 +26,9 @@ exports.AppModule = AppModule = __decorate([
                 password: 'root',
                 database: 'pass-gen',
                 models: [User_model_1.UsrModel]
-            }), auth_module_1.AuthModule],
+            }), auth_module_1.AuthModule, config_1.ConfigModule.forRoot({
+                isGlobal: true,
+            })],
         controllers: [],
         providers: [],
     })

@@ -3,6 +3,7 @@ import { UserModule } from './user/user.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UsrModel } from './database/Models/User.model';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 
 
@@ -15,7 +16,9 @@ import { AuthModule } from './auth/auth.module';
     password: 'root',
     database: 'pass-gen',
     models:[UsrModel]
-  }), AuthModule],
+  }), AuthModule,ConfigModule.forRoot({
+    isGlobal:true,
+  })],
   controllers: [],
   providers: [],
  

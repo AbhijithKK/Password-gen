@@ -1,2 +1,9 @@
+import { loginDto, userReturnDto } from './auth.dto';
+import { UsrModel } from 'src/database/Models/User.model';
+import { JwtService } from '@nestjs/jwt';
 export declare class AuthService {
+    private readonly userdata;
+    private jwtServices;
+    constructor(userdata: typeof UsrModel, jwtServices: JwtService);
+    postLogin(data: loginDto): Promise<userReturnDto>;
 }

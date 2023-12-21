@@ -6,18 +6,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsrModelModule = void 0;
+exports.GuardGuard = void 0;
 const common_1 = require("@nestjs/common");
-const User_model_1 = require("./User.model");
-const sequelize_1 = require("@nestjs/sequelize");
-let UsrModelModule = class UsrModelModule {
+let GuardGuard = class GuardGuard {
+    canActivate(context) {
+        return false;
+    }
 };
-exports.UsrModelModule = UsrModelModule;
-exports.UsrModelModule = UsrModelModule = __decorate([
-    (0, common_1.Module)({
-        providers: [User_model_1.UsrModel],
-        imports: [sequelize_1.SequelizeModule.forFeature([User_model_1.UsrModel])],
-        exports: [sequelize_1.SequelizeModule.forFeature([User_model_1.UsrModel])],
-    })
-], UsrModelModule);
-//# sourceMappingURL=models.module.js.map
+exports.GuardGuard = GuardGuard;
+exports.GuardGuard = GuardGuard = __decorate([
+    (0, common_1.Injectable)()
+], GuardGuard);
+//# sourceMappingURL=guard.guard.js.map

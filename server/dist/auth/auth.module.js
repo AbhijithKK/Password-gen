@@ -10,13 +10,17 @@ exports.AuthModule = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const auth_controller_1 = require("./auth.controller");
+const sequelize_1 = require("@nestjs/sequelize");
+const User_model_1 = require("../database/Models/User.model");
+const jwt_1 = require("@nestjs/jwt");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
+        imports: [sequelize_1.SequelizeModule.forFeature([User_model_1.UsrModel])],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService],
+        providers: [auth_service_1.AuthService, jwt_1.JwtService,],
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map
