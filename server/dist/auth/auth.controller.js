@@ -15,23 +15,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
-const guard_guard_1 = require("../guard/guard.guard");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    async postLogin(loginDto) {
+    async postLogin(loginDto, req, res) {
         const data = await this.authService.postLogin(loginDto);
-        console.log(data);
+        if (data?.auth) {
+            return res.cookie("jwt", data?.token).json(data.data);
+        }
+        else {
+            return res.json(data);
+        }
     }
 };
 exports.AuthController = AuthController;
 __decorate([
-    (0, common_1.UseGuards)(guard_guard_1.GuardGuard),
     (0, common_1.Post)('/login'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "postLogin", null);
 exports.AuthController = AuthController = __decorate([

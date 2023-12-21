@@ -1,18 +1,22 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UseGuards, } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { loginDto } from './auth.dto';
-import { GuardGuard } from 'src/guard/guard.guard';
+import { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  @UseGuards(GuardGuard)
+  
   @Post('/login')
- async postLogin(@Body() loginDto:loginDto){
+  
+ async postLogin(@Body() loginDto:loginDto ,@Req() req:Request,@Res() res:Response){
+  
     const data=await this.authService.postLogin(loginDto)
-    console.log(data);
-    
-
-    
+    if (data?.auth) {
+      
+    return  res.cookie("jwt",data?.token).json(data.data)
+    }else{
+    return  res.json(data)
+    } 
   }
 }

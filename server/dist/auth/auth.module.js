@@ -18,7 +18,13 @@ let AuthModule = class AuthModule {
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
-        imports: [sequelize_1.SequelizeModule.forFeature([User_model_1.UsrModel])],
+        imports: [sequelize_1.SequelizeModule.forFeature([User_model_1.UsrModel]),
+            jwt_1.JwtModule.register({
+                global: true,
+                secret: 'AASDS',
+                signOptions: { expiresIn: '60s' },
+                secretOrPrivateKey: process.env.JWT_KEY || 'AASDS',
+            })],
         controllers: [auth_controller_1.AuthController],
         providers: [auth_service_1.AuthService, jwt_1.JwtService,],
     })

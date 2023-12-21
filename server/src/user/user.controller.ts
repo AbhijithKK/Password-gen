@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from './user.dto';
+import { BeltGuard } from 'src/belt/belt.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+  @UseGuards(BeltGuard)
   @Get('/home')
  async Home (){
     const data=await this.userService.GetHome()

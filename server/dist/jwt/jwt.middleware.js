@@ -16,16 +16,17 @@ let JwtMiddleware = class JwtMiddleware {
     constructor(jwtService) {
         this.jwtService = jwtService;
     }
-    use(req, res, next) {
+    async use(req, res, next) {
         try {
             const jwthash = req.cookies.psAuth;
-            const data = this.jwtService.verifyAsync(jwthash);
+            const data = await this.jwtService.verifyAsync(jwthash);
             if (data) {
                 console.log('jwt authpass');
                 next();
             }
             else
                 res.json({ message: "auth Error" }).status(401);
+            console.log('jwt authpass111');
         }
         catch (error) {
             res.json({ message: "auth Error" }).status(401);

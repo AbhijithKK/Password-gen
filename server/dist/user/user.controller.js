@@ -16,6 +16,7 @@ exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
 const user_dto_1 = require("./user.dto");
+const belt_guard_1 = require("../belt/belt.guard");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -31,6 +32,7 @@ let UserController = class UserController {
 };
 exports.UserController = UserController;
 __decorate([
+    (0, common_1.UseGuards)(belt_guard_1.BeltGuard),
     (0, common_1.Get)('/home'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

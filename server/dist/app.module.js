@@ -13,6 +13,7 @@ const sequelize_1 = require("@nestjs/sequelize");
 const User_model_1 = require("./database/Models/User.model");
 const auth_module_1 = require("./auth/auth.module");
 const config_1 = require("@nestjs/config");
+const jwt_1 = require("@nestjs/jwt");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -28,6 +29,12 @@ exports.AppModule = AppModule = __decorate([
                 models: [User_model_1.UsrModel]
             }), auth_module_1.AuthModule, config_1.ConfigModule.forRoot({
                 isGlobal: true,
+            }),
+            jwt_1.JwtModule.register({
+                global: true,
+                secret: 'AASDS',
+                signOptions: { expiresIn: '60s' },
+                secretOrPrivateKey: process.env.JWT_KEY || 'AASDS',
             })],
         controllers: [],
         providers: [],

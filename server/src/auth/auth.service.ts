@@ -3,6 +3,7 @@ import { loginDto, userReturnDto } from './auth.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { UsrModel } from 'src/database/Models/User.model';
 import { JwtService } from '@nestjs/jwt';
+import { log } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -15,9 +16,11 @@ export class AuthService {
       const datq = await this.userdata.findOne({
         where: { email: data.email },
       });
+
       if (datq?.dataValues != undefined) {
-        const jwtData: string = await this.jwtServices.signAsync(
-          datq?.dataValues?.id,
+        const jwtData = await this.jwtServices.sign(
+          { data: datq.dataValues.id },
+          { secret: process.env.JWT_KEY },
         );
         return { auth: true, data: datq?.dataValues, token: jwtData };
       }

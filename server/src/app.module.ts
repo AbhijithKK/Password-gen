@@ -4,6 +4,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { UsrModel } from './database/Models/User.model';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 
 
 
@@ -18,6 +19,13 @@ import { ConfigModule } from '@nestjs/config';
     models:[UsrModel]
   }), AuthModule,ConfigModule.forRoot({
     isGlobal:true,
+  })
+  ,JwtModule.register({
+    global:true, 
+    secret:'AASDS',
+    signOptions: { expiresIn: '60s' },
+    secretOrPrivateKey:process.env.JWT_KEY || 'AASDS',
+    
   })],
   controllers: [],
   providers: [],

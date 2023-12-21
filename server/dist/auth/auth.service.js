@@ -28,7 +28,7 @@ let AuthService = class AuthService {
                 where: { email: data.email },
             });
             if (datq?.dataValues != undefined) {
-                const jwtData = await this.jwtServices.signAsync(datq?.dataValues?.id);
+                const jwtData = await this.jwtServices.sign({ data: datq.dataValues.id }, { secret: process.env.JWT_KEY });
                 return { auth: true, data: datq?.dataValues, token: jwtData };
             }
         }
