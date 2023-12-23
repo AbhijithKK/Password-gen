@@ -1,5 +1,10 @@
+import SignUp from "./Components/SignUp/SignUp";
+
 function App() {
-  return <>Password-Genarator</>;
+  return (
+  <>
+  <SignUp/>
+  </>);
 }
 
 export default App;

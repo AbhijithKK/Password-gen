@@ -1,0 +1,94 @@
+.main-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    overflow-x: hidden !important;
+
+}
+.form-main{
+    display: grid;
+justify-content: center;
+    /* grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); */
+    position: relative;
+    width: 50%;
+    overflow-x: hidden !important;
+
+}
+
+.form-main input{
+width: 250px;
+height: 40px;
+margin-top: 10px;
+margin-bottom: 10px;
+outline: none;
+border: 0 ;
+overflow-x: hidden !important;
+
+}
+.form-main input{
+    border-bottom: 1px solid ;
+    overflow-x: hidden !important;
+
+}
+.form-main button{
+    margin-top: 10px;
+    height: 40px;
+    border-radius: 8px;
+    outline: none;
+    border: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: blue;
+}
+
+.form-main button:hover{
+cursor: pointer;
+color: green;
+/* background-color: rgba(104, 104, 101, 0.486); */
+}
+
+
+.form-main input:nth-child(2)::placeholder{
+    
+    color: rgb(145, 196, 196);
+    font-weight: bold;
+}
+.form-main input:nth-child(4)::placeholder{
+    
+    color: rgb(145, 196, 196) ;
+    font-weight: bold;
+}
+
+
+
+.form-main div{
+    text-align: center;
+    font-weight: bold;
+    overflow-x: hidden !important;
+
+}
+.chekboxer{
+    width: 14px;
+    height: 17px;
+    position: absolute;
+    right: 228px;
+    bottom: 75px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   /* background-color: transparent !important; */
+overflow-x: hidden !important;
+
+}
+.chekboxer input{
+    height: 17px;
+    width: 14px;
+    outline: none;
+    cursor: pointer;
+    border: 0px !important;
+    overflow-x: hidden !important;
+
+   
+}
