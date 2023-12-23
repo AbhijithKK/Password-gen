@@ -7,3 +7,9 @@ export interface userReturnDto {
     data?: string | number | undefined;
     token?: string | undefined;
 }
+export declare class UserDto {
+    name: string;
+    email: string;
+    password: string;
+    image: string;
+}

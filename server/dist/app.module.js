@@ -14,6 +14,7 @@ const User_model_1 = require("./database/Models/User.model");
 const auth_module_1 = require("./auth/auth.module");
 const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
+const PasswordStore_model_1 = require("./database/Models/PasswordStore.model");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -26,8 +27,11 @@ exports.AppModule = AppModule = __decorate([
                 username: 'postgres',
                 password: 'root',
                 database: 'pass-gen',
-                models: [User_model_1.UsrModel]
-            }), auth_module_1.AuthModule, config_1.ConfigModule.forRoot({
+                autoLoadModels: true,
+                synchronize: true,
+                models: [User_model_1.UsrModel, PasswordStore_model_1.PasswordStoreModel]
+            }),
+            auth_module_1.AuthModule, config_1.ConfigModule.forRoot({
                 isGlobal: true,
             }),
             jwt_1.JwtModule.register({

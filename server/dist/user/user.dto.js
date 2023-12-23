@@ -9,23 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserDto = void 0;
+exports.passDto = void 0;
 const class_validator_1 = require("class-validator");
-class UserDto {
+class passDto {
 }
-exports.UserDto = UserDto;
+exports.passDto = passDto;
 __decorate([
-    (0, class_validator_1.IsNotEmpty)({ message: 'Must be add your Name' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Must be add an Id' }),
+    __metadata("design:type", Number)
+], passDto.prototype, "userId", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)({ message: 'Must be add Name' }),
     (0, class_validator_1.Length)(3, 225, { message: 'Name atleast 3 characters Required' }),
     __metadata("design:type", String)
-], UserDto.prototype, "name", void 0);
+], passDto.prototype, "appName", void 0);
 __decorate([
-    (0, class_validator_1.IsEmail)({}, { message: 'Enter a proper Email Address' }),
-    __metadata("design:type", String)
-], UserDto.prototype, "email", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)({ message: 'Enter a Strong password' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Genarate a Strong password' }),
     (0, class_validator_1.Length)(8, 225, { message: 'Password atleast 8 characters Required' }),
     __metadata("design:type", String)
-], UserDto.prototype, "password", void 0);
+], passDto.prototype, "password", void 0);
 //# sourceMappingURL=user.dto.js.map

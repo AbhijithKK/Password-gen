@@ -1,6 +1,5 @@
-export declare class UserDto {
-    name: string;
-    email: string;
+export declare class passDto {
+    userId: number;
+    appName: string;
     password: string;
-    image: string;
 }

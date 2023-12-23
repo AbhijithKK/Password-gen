@@ -14,24 +14,25 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
-const User_model_1 = require("../database/Models/User.model");
 const sequelize_1 = require("@nestjs/sequelize");
+const PasswordStore_model_1 = require("../database/Models/PasswordStore.model");
+const User_model_1 = require("../database/Models/User.model");
 let UserService = class UserService {
-    constructor(userModule) {
-        this.userModule = userModule;
+    constructor(passwordModel, Usrmodel) {
+        this.passwordModel = passwordModel;
+        this.Usrmodel = Usrmodel;
     }
-    GetHome() {
-        return 'hiii';
+    async GetHome(jwtData) {
+        const data = await this.Usrmodel.findOne({ where: { id: jwtData } });
+        return data;
     }
-    async postUserdata(userdata) {
-        const userToCreate = {
-            id: null,
-            name: userdata.name,
-            email: userdata.email,
+    async postPassData(userdata) {
+        const passToCreate = {
+            userId: userdata.userId,
+            appName: userdata.appName,
             password: userdata.password,
-            image: userdata.image
         };
-        const resp = await this.userModule.create(userToCreate);
+        const resp = await this.passwordModel.create(passToCreate);
         console.log('ffffffffffffff', resp.dataValues);
         return "successfully created";
     }
@@ -39,7 +40,8 @@ let UserService = class UserService {
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, sequelize_1.InjectModel)(User_model_1.UsrModel)),
-    __metadata("design:paramtypes", [Object])
+    __param(0, (0, sequelize_1.InjectModel)(PasswordStore_model_1.PasswordStoreModel)),
+    __param(1, (0, sequelize_1.InjectModel)(User_model_1.UsrModel)),
+    __metadata("design:paramtypes", [Object, Object])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

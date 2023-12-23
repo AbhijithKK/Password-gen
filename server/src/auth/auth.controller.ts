@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Req, Res, UseGuards, } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { loginDto } from './auth.dto';
+import { UserDto, loginDto } from './auth.dto';
 import { Request, Response } from 'express';
 
 @Controller('auth')
@@ -18,5 +18,10 @@ export class AuthController {
     }else{
     return  res.json(data)
     } 
+  }
+  @Post('/signup')
+  async UserData(@Body() userdata:UserDto){
+    const data=await this.authService.postUserdata(userdata)
+    return data
   }
 }

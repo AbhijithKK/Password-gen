@@ -12,12 +12,13 @@ const user_service_1 = require("./user.service");
 const user_controller_1 = require("./user.controller");
 const sequelize_1 = require("@nestjs/sequelize");
 const User_model_1 = require("../database/Models/User.model");
+const PasswordStore_model_1 = require("../database/Models/PasswordStore.model");
 let UserModule = class UserModule {
 };
 exports.UserModule = UserModule;
 exports.UserModule = UserModule = __decorate([
     (0, common_1.Module)({
-        imports: [sequelize_1.SequelizeModule.forFeature([User_model_1.UsrModel])],
+        imports: [sequelize_1.SequelizeModule.forFeature([User_model_1.UsrModel, PasswordStore_model_1.PasswordStoreModel])],
         controllers: [user_controller_1.UserController],
         providers: [user_service_1.UserService,],
         exports: [sequelize_1.SequelizeModule]

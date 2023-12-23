@@ -1,8 +1,11 @@
 import { UserService } from './user.service';
-import { UserDto } from './user.dto';
+import { passDto } from './user.dto';
+import { Request } from 'express';
+import { JwtService } from '@nestjs/jwt';
 export declare class UserController {
     private readonly userService;
-    constructor(userService: UserService);
-    Home(): Promise<string>;
-    UserData(userdata: UserDto): Promise<string>;
+    private Jwtservice;
+    constructor(userService: UserService, Jwtservice: JwtService);
+    Home(req: Request): Promise<import("../database/Models/User.model").UsrModel>;
+    UserData(userdata: passDto): Promise<string>;
 }

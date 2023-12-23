@@ -1,15 +1,23 @@
-import { Table, Column, Model, AutoIncrement, Unique, IsNull, IsEmail, PrimaryKey } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  AutoIncrement,
+  Unique,
+  IsEmail,
+  PrimaryKey,
+} from 'sequelize-typescript';
 
 @Table({
-    tableName:'userdetais',timestamps:true
+  tableName: 'userdetais',
+  timestamps: true,
 })
 export class UsrModel extends Model {
-    @AutoIncrement
-    @PrimaryKey
+  @AutoIncrement
+  @PrimaryKey
   @Column
   id: number;
 
-  
   @Column
   name: string;
 
@@ -24,3 +32,5 @@ export class UsrModel extends Model {
   @Column
   image: string;
 }
+
+

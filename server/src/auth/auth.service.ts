@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { loginDto, userReturnDto } from './auth.dto';
+import { UserDto, loginDto, userReturnDto } from './auth.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { UsrModel } from 'src/database/Models/User.model';
 import { JwtService } from '@nestjs/jwt';
@@ -30,4 +30,18 @@ export class AuthService {
 
     return { auth: false };
   }
+  async postUserdata(userdata:UserDto){
+    
+    const userToCreate={
+        id:null,
+        name:userdata.name,
+        email:userdata.email,
+        password:userdata.password,
+        image:userdata.image
+    }
+    const resp=await  this.userdata.create(userToCreate)
+    console.log('ffffffffffffff',resp.dataValues);
+    
+    return "successfully created"
+    }
 }

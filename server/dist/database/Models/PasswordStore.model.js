@@ -9,39 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsrModel = void 0;
+exports.PasswordStoreModel = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
-let UsrModel = class UsrModel extends sequelize_typescript_1.Model {
+const User_model_1 = require("./User.model");
+let PasswordStoreModel = class PasswordStoreModel extends sequelize_typescript_1.Model {
 };
-exports.UsrModel = UsrModel;
+exports.PasswordStoreModel = PasswordStoreModel;
 __decorate([
     sequelize_typescript_1.AutoIncrement,
     sequelize_typescript_1.PrimaryKey,
     sequelize_typescript_1.Column,
     __metadata("design:type", Number)
-], UsrModel.prototype, "id", void 0);
+], PasswordStoreModel.prototype, "id", void 0);
+__decorate([
+    (0, sequelize_typescript_1.ForeignKey)(() => User_model_1.UsrModel),
+    sequelize_typescript_1.Column,
+    __metadata("design:type", Number)
+], PasswordStoreModel.prototype, "userId", void 0);
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
-], UsrModel.prototype, "name", void 0);
-__decorate([
-    sequelize_typescript_1.Unique,
-    sequelize_typescript_1.IsEmail,
-    sequelize_typescript_1.Column,
-    __metadata("design:type", String)
-], UsrModel.prototype, "email", void 0);
+], PasswordStoreModel.prototype, "appName", void 0);
 __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
-], UsrModel.prototype, "password", void 0);
-__decorate([
-    sequelize_typescript_1.Column,
-    __metadata("design:type", String)
-], UsrModel.prototype, "image", void 0);
-exports.UsrModel = UsrModel = __decorate([
+], PasswordStoreModel.prototype, "password", void 0);
+exports.PasswordStoreModel = PasswordStoreModel = __decorate([
     (0, sequelize_typescript_1.Table)({
-        tableName: 'userdetais',
-        timestamps: true,
+        tableName: 'passwordStores',
+        createdAt: true,
     })
-], UsrModel);
-//# sourceMappingURL=User.model.js.map
+], PasswordStoreModel);
+//# sourceMappingURL=PasswordStore.model.js.map

@@ -15,18 +15,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
-const user_dto_1 = require("./user.dto");
 const belt_guard_1 = require("../belt/belt.guard");
+const user_dto_1 = require("./user.dto");
+const jwt_1 = require("@nestjs/jwt");
 let UserController = class UserController {
-    constructor(userService) {
+    constructor(userService, Jwtservice) {
         this.userService = userService;
+        this.Jwtservice = Jwtservice;
     }
-    async Home() {
-        const data = await this.userService.GetHome();
+    async Home(req) {
+        const jwt = req.cookies.jwt;
+        const jwtData = await this.Jwtservice.verify(jwt, { secret: process.env.JWT_KEY });
+        console.log(jwtData.data);
+        const data = await this.userService.GetHome(jwtData.data);
         return data;
     }
     async UserData(userdata) {
-        const data = await this.userService.postUserdata(userdata);
+        const data = await this.userService.postPassData(userdata);
         return data;
     }
 };
@@ -34,19 +39,22 @@ exports.UserController = UserController;
 __decorate([
     (0, common_1.UseGuards)(belt_guard_1.BeltGuard),
     (0, common_1.Get)('/home'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "Home", null);
 __decorate([
-    (0, common_1.Post)('/userdata'),
+    (0, common_1.UseGuards)(belt_guard_1.BeltGuard),
+    (0, common_1.Post)('/genaratepassword'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_dto_1.UserDto]),
+    __metadata("design:paramtypes", [user_dto_1.passDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "UserData", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('user'),
-    __metadata("design:paramtypes", [user_service_1.UserService])
+    __metadata("design:paramtypes", [user_service_1.UserService,
+        jwt_1.JwtService])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map

@@ -1,26 +1,32 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { UserDto } from './user.dto';
-import { UsrModel } from 'src/database/Models/User.model';
+import {  Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { passDto } from './user.dto';
+import {  PasswordStoreModel } from 'src/database/Models/PasswordStore.model';
+import { UsrModel } from 'src/database/Models/User.model';
 
 @Injectable()
 export class UserService {
     constructor(
-        @InjectModel(UsrModel) private readonly userModule:typeof UsrModel
+        @InjectModel(PasswordStoreModel) private readonly passwordModel:typeof PasswordStoreModel,
+        @InjectModel(UsrModel) private readonly Usrmodel:typeof UsrModel
     ){}
-    GetHome(){
-        return 'hiii'
+    async GetHome(jwtData:number){
+
+        const data=await this.Usrmodel.findOne({where:{id:jwtData}})
+        return data
     }
-   async postUserdata(userdata:UserDto){
+
+
+   async postPassData(userdata:passDto){
     
-    const userToCreate={
-        id:null,
-        name:userdata.name,
-        email:userdata.email,
+    const passToCreate={
+        userId:userdata.userId,
+        appName:userdata.appName,
+       
         password:userdata.password,
-        image:userdata.image
+       
     }
-    const resp=await  this.userModule.create(userToCreate)
+    const resp=await  this.passwordModel.create(passToCreate)
     console.log('ffffffffffffff',resp.dataValues);
     
     return "successfully created"

@@ -37,6 +37,18 @@ let AuthService = class AuthService {
         }
         return { auth: false };
     }
+    async postUserdata(userdata) {
+        const userToCreate = {
+            id: null,
+            name: userdata.name,
+            email: userdata.email,
+            password: userdata.password,
+            image: userdata.image
+        };
+        const resp = await this.userdata.create(userToCreate);
+        console.log('ffffffffffffff', resp.dataValues);
+        return "successfully created";
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

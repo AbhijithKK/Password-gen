@@ -5,6 +5,7 @@ import { UsrModel } from './database/Models/User.model';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { PasswordStoreModel } from './database/Models/PasswordStore.model';
 
 
 
@@ -16,8 +17,11 @@ import { JwtModule } from '@nestjs/jwt';
     username: 'postgres',
     password: 'root',
     database: 'pass-gen',
-    models:[UsrModel]
-  }), AuthModule,ConfigModule.forRoot({
+    autoLoadModels:true,
+    synchronize:true,
+    models:[UsrModel,PasswordStoreModel]
+  })
+  , AuthModule,ConfigModule.forRoot({
     isGlobal:true,
   })
   ,JwtModule.register({
