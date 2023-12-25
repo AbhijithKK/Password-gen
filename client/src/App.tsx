@@ -1,9 +1,14 @@
-import SignUp from "./Components/SignUp/SignUp";
+import Home from "./Components/Home/Home";
+import Login from "./Components/Login/Login";
+import SignUp from "./Components/Signup/SignUp";
+
 
 function App() {
   return (
   <>
-  <SignUp/>
+  {/* <Login/> */}
+  {/* <SignUp/> */}
+  <Home/>
   </>);
 }
 

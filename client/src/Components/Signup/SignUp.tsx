@@ -1,8 +1,13 @@
 import { useState } from "react";
-import "./SignUp.css";
+import "../Login/Login.css";
+import { SignUpApi } from "../../api/AuthApi";
+import { useNavigate } from "react-router-dom";
 const SignUp = () => {
+    const Nav=useNavigate()
   const [passwordType, setPassswordType] = useState<string>("password");
   const [password, setPasssword] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [image, setImage] = useState<any>('');
   const [email, setEmail] = useState<string>("");
   const [errorr, setError] = useState<string>("");
   const HideUnHide = (e: any) => {
@@ -12,12 +17,18 @@ const SignUp = () => {
       setPassswordType("password");
     }
   };
+  console.log(image);
+  
   const Submit=async()=>{
-    if (password.trim()&&email.trim()) {
+    if (password.trim()&&email.trim()&&name.trim()) {
+        const data:any=await SignUpApi({name,email,password,image})
+        console.log(data?.message);
+        if (data.statusCode===200) {
+            Nav('/login')
+        }
         
-        console.log(email,password);
     }else{
-        setError('gg')
+        setError('Enter Proper Email address and Password')
     }
     
   }
@@ -28,11 +39,26 @@ const SignUp = () => {
           <div> PASSWORD GENERATOR</div>
           <p>{errorr}</p>
           <input
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            placeholder="Name"
+            title="Enter Your Name"
+          />
+          <input
             type="email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             placeholder="Email"
             title="Enter Email Address"
+          />
+          <input
+            type="file"
+            title="Choose Image"
+            placeholder="Choose Image"
+            accept="jpeg,png,jpg"
+            onChange={(e) => setImage(e.target.files)}
+            // value={image}
           />
           <div className="chekboxer">
             <input type="checkbox" onChange={(e: EventInit) => HideUnHide(e)} />
@@ -44,9 +70,10 @@ const SignUp = () => {
             onChange={(e) => setPasssword(e.target.value)}
             value={password}
           />
+          
           <button 
           type="button"
-          onClick={Submit}>Login</button>
+          onClick={Submit}>Sign Up</button>
         </div>
       </div>
     </>

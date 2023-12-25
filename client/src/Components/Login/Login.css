@@ -1,0 +1,107 @@
+.main-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    overflow-x: hidden !important;
+    background-color: rgb(151, 202, 185);
+
+}
+.form-main{
+    display: grid;
+justify-content: center;
+    /* grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); */
+    position: relative;
+    
+    overflow-x: hidden !important;
+
+}
+
+.form-main input{
+width: 250px;
+height: 40px;
+margin-top: 10px;
+margin-bottom: 10px;
+outline: none;
+border: 0 ;
+overflow-x: hidden !important;
+background-color: rgb(151, 202, 185);
+
+}
+.form-main input{
+    border-bottom: 1px solid ;
+    overflow-x: hidden !important;
+
+}
+.form-main button{
+    margin-top: 10px;
+    height: 40px;
+    border-radius: 8px;
+    outline: none;
+    border: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: blue;
+    margin-bottom: 10px;
+}
+
+.form-main button:hover{
+cursor: pointer;
+color: green;
+background-color: rgb(151, 202, 185);
+
+outline: 1px solid green  ;
+}
+
+
+.form-main input:nth-child(3)::placeholder{
+    
+    color: rgb(89, 126, 126);
+    font-weight: bold;
+}
+.form-main input:nth-child(5)::placeholder{
+    
+    color: rgb(85, 114, 114) ;
+    font-weight: bold;
+}
+
+
+
+.form-main div{
+    text-align: center;
+    font-weight: bold;
+    overflow-x: hidden !important;
+
+}
+.chekboxer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    overflow-x: hidden !important;
+    width: 40px;
+    height: 40px;
+    right: -12px;
+    bottom: 60px;
+   /* background-color: transparent !important; */
+
+}
+.chekboxer input{
+    height: 17px;
+    width: 14px;
+    outline: none;
+    cursor: pointer;
+    border: 0px !important;
+    overflow-x: hidden !important;
+
+   
+}
+.form-main p{
+    color: red;
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana;
+    text-decoration:underline;
+    padding-top: 10px;
+}
