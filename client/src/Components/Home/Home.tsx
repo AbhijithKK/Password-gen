@@ -2,6 +2,8 @@ import "./Home.css";
 import centerImg from "../../assets/password-manager-vector.png";
 import { useEffect, useState } from "react";
 import { HomeApi } from "../../api/UserApi";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
   const Lowercase: string =
@@ -15,6 +17,7 @@ const Home = () => {
   const [NM, setNM] = useState<boolean>(false);
   const [SY, setSY] = useState<boolean>(false);
   const [RNG, setRNG] = useState<string>("8");
+  const [NewPass, setNewPass] = useState<string>("");
   const GenPass = () => {
     let totalValues = "";
     if (LC) {
@@ -35,7 +38,7 @@ const Home = () => {
       let chatIntex = Math.round(Math.random() * totalValues.length);
       tempPassword +=totalValues.charAt(chatIntex)
     }
-    console.log(tempPassword);
+    setNewPass(tempPassword)
     
   };
   const ApiHelper = async () => {
@@ -45,6 +48,13 @@ const Home = () => {
   useEffect(() => {
     ApiHelper();
   }, []);
+  const CopyText=async()=>{
+    if (NewPass.length) {
+        
+        navigator.clipboard.writeText(NewPass)
+        toast("Password copy Successfully");
+    }
+  }
   return (
     <>
       <div className="navBar">
@@ -64,6 +74,45 @@ const Home = () => {
         </div>
         <div className="genarate-pass-window">
           <p>Genarate Strong Password</p>
+
+
+          <div className="range-container">
+            <div className="chekbox-1">
+             
+              <div className="ranges" style={{
+                border:"1px solid blue",
+                boxShadow:"0px 3px 12px blue"
+              }}>
+                <input
+                  type="text"
+                  readOnly
+                  defaultValue={NewPass}
+                  name=""
+                  id=""
+                  style={{
+                    outline:"none",
+                    border:"0px"
+                  }}
+                />
+              </div>
+              <div onClick={CopyText} className="range-num" style={{
+                border:"1px solid black",
+                marginLeft:"5px"
+                ,width:"50px",
+                cursor:"pointer !important"
+                
+              }}>
+                 <ToastContainer />
+                <p  style={{
+                   
+                    fontSize:"13px",cursor:"pointer"
+                }}>Copy</p>
+              </div>
+            </div>
+          </div>
+
+
+
           <div className="supparator">
             <div>
               <div className="chekbox-">
