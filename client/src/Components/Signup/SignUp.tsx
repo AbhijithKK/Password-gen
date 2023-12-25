@@ -24,7 +24,7 @@ const SignUp = () => {
         const data:any=await SignUpApi({name,email,password,image})
         console.log(data?.message);
         if (data.statusCode===200) {
-            Nav('/login')
+            Nav('/')
         }
         
     }else{
@@ -58,7 +58,7 @@ const SignUp = () => {
             placeholder="Choose Image"
             accept="jpeg,png,jpg"
             onChange={(e) => setImage(e.target.files)}
-            // value={image}
+            
           />
           <div className="chekboxer">
             <input type="checkbox" onChange={(e: EventInit) => HideUnHide(e)} />

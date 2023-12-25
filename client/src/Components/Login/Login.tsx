@@ -1,7 +1,9 @@
 import { useState } from "react";
 import "./Login.css";
 import { LoginApi } from "../../api/AuthApi";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 const Login = () => {
+  const Nav:NavigateFunction=useNavigate()
   const [passwordType, setPassswordType] = useState<string>("password");
   const [password, setPasssword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -17,6 +19,7 @@ const Login = () => {
     if (password.trim()&&email.trim()) {
         const data=await LoginApi(email,password)
         console.log(data);
+        Nav('/home')
         
     }else{
         setError('Enter Proper Email address and Password')
