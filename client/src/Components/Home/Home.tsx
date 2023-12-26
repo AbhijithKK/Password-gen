@@ -1,7 +1,7 @@
 import "./Home.css";
 import centerImg from "../../assets/password-manager-vector.png";
 import { useEffect, useState } from "react";
-import { HomeApi } from "../../api/UserApi";
+import { HomeApi, userdto } from "../../api/UserApi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,7 +12,8 @@ const Home = () => {
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const Number: string = "0123456789";
   const Symbols: string = "!@#$%^&*()/?";
-  const [LC, setLC] = useState<boolean>(false);
+  const [LC, setLC] = useState<boolean>(true);
+  const [modalOn, setModal] = useState<boolean>(false);
   const [UP, setUP] = useState<boolean>(false);
   const [NM, setNM] = useState<boolean>(false);
   const [SY, setSY] = useState<boolean>(false);
@@ -41,9 +42,16 @@ const Home = () => {
     setNewPass(tempPassword)
     
   };
+  const [userData,setUserData]=useState<userdto>()
+  const [userPass,setPassData]=useState<any[]>([])
+  console.log(userPass);
+  
   const ApiHelper = async () => {
     const data = await HomeApi();
-    console.log(data);
+    // console.log(data);
+    
+    setUserData(data)
+    setPassData(data?.savedPasswords)
   };
   useEffect(() => {
     ApiHelper();
@@ -55,6 +63,14 @@ const Home = () => {
         toast("Password copy Successfully");
     }
   }
+
+  const SavedPass=()=>{
+    setModal(!modalOn)
+    
+  }
+  const SavePass=()=>{
+    setModal(!modalOn)
+  }
   return (
     <>
       <div className="navBar">
@@ -64,6 +80,7 @@ const Home = () => {
         <div className="Propic">
           <div className="imagess">
             <img src="" alt="p" />
+            <p>{userData?.name}</p>
             <img src="" alt="do" />
           </div>
         </div>
@@ -123,7 +140,7 @@ const Home = () => {
                   checked={LC}
                   onChange={() => setLC(!LC)}
                 />
-                <label htmlFor="">Include Lowercase(a-z)</label>
+                <label htmlFor="">Include Lower Case(a-z)</label>
               </div>
               <div className="chekbox-">
                 <input
@@ -133,7 +150,7 @@ const Home = () => {
                   checked={UP}
                   onChange={() => setUP(!UP)}
                 />
-                <label htmlFor="">Include Uppercase(A-Z)</label>
+                <label htmlFor="">Include Upper Case(A-Z)</label>
               </div>
             </div>
             <div>
@@ -177,15 +194,46 @@ const Home = () => {
               </div>
             </div>
           </div>
+        <div className="modal" 
+        style={{
+            display:modalOn===false ? "none": "block"
+        }} >
+        <div className="modaltitle">
+            Saved PassWords
+        </div>
+        {
+            userPass.map((val,index)=>(
+                <div key={index} className="contentmodal">
+            <div>
+
+            <p>{val.appName}</p>
+            <p>{val.password}</p>
+            </div>
+            <div>
+                <p>copy</p>
+                <p>{val.id}</p>
+            </div>
+        </div>
+            ))
+        }
+        </div>
         </div>
         <div
           style={{
             marginTop: "08px",
+           
+    
           }}
-          className="center-image"
+          className="center-image buttonss"
         >
           <button type="button" onClick={GenPass}>
             &nbsp; GENERATE NEW PASSWORD &nbsp;
+          </button>
+          <button type="button" onClick={SavedPass}>
+            &nbsp; SHOW SAVED PASSWORDS &nbsp;
+          </button>
+          <button type="button" onClick={SavePass}>
+            &nbsp; SAVE PASSWORD &nbsp;
           </button>
         </div>
       </div>

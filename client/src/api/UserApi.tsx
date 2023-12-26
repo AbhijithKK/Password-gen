@@ -3,10 +3,15 @@ interface PassDto {
   appName: string;
   password: string;
 }
-
+export interface userdto{
+    name:string
+    email:string
+    image:string
+    savedPasswords:any[]
+}
 import {Axiosinstance as axios}  from '../Utils/Axios'
 
-export const HomeApi = async (): Promise<string> => {
+export const HomeApi = async (): Promise<userdto> => {
   const { data } = await axios.get("user/home");
   return data;
 };
