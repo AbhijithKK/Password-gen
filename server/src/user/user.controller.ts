@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { BeltGuard } from 'src/belt/belt.guard';
 import { passDto } from './user.dto';
@@ -19,11 +19,23 @@ export class UserController {
     const data=await this.userService.GetHome(jwtData.data)
     return data
   }
+
+
   @UseGuards(BeltGuard)
   @Post('/genaratepassword')
   async UserData(@Body() userdata:passDto){
+  
+    
     const data=await this.userService.postPassData(userdata)
     return data
+  }
+
+  @UseGuards(BeltGuard)
+  @Delete('/deletepasswor')
+  async DeletePassword(@Query() id:any){
+    const data =await this.userService.Deletepass(id.id)
+    return data
+
   }
 
 }

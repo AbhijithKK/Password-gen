@@ -6,6 +6,17 @@ export declare class UserController {
     private readonly userService;
     private Jwtservice;
     constructor(userService: UserService, Jwtservice: JwtService);
-    Home(req: Request): Promise<import("../database/Models/User.model").UsrModel>;
-    UserData(userdata: passDto): Promise<string>;
+    Home(req: Request): Promise<{
+        id: number;
+        name: string;
+        email: string;
+        image: string;
+        savedPasswords: import("../database/Models/PasswordStore.model").PasswordStoreModel[];
+    }>;
+    UserData(userdata: passDto): Promise<{
+        message: string;
+    }>;
+    DeletePassword(id: any): Promise<{
+        message: string;
+    }>;
 }

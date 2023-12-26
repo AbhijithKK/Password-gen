@@ -34,6 +34,10 @@ let UserController = class UserController {
         const data = await this.userService.postPassData(userdata);
         return data;
     }
+    async DeletePassword(id) {
+        const data = await this.userService.Deletepass(id.id);
+        return data;
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -52,6 +56,14 @@ __decorate([
     __metadata("design:paramtypes", [user_dto_1.passDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "UserData", null);
+__decorate([
+    (0, common_1.UseGuards)(belt_guard_1.BeltGuard),
+    (0, common_1.Delete)('/deletepasswor'),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "DeletePassword", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService,

@@ -25,7 +25,7 @@ let BeltGuard = class BeltGuard {
         try {
             const decode = this.jwtService.verify(token);
             request.user = decode;
-            console.log(request.user);
+            console.log(request.user, 'GGGGGFFEE');
             return true;
         }
         catch (error) {

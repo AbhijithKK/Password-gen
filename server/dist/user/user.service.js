@@ -24,17 +24,39 @@ let UserService = class UserService {
     }
     async GetHome(jwtData) {
         const data = await this.Usrmodel.findOne({ where: { id: jwtData } });
-        return data;
+        console.log(data.id);
+        const savedPasswords = await this.passwordModel.findAll({
+            where: { userId: data.id },
+        });
+        console.log(savedPasswords);
+        let sendData = {
+            id: data.id,
+            name: data.name,
+            email: data.email,
+            image: data.image,
+            savedPasswords: savedPasswords,
+        };
+        return sendData;
     }
     async postPassData(userdata) {
+        console.log(userdata);
         const passToCreate = {
             userId: userdata.userId,
             appName: userdata.appName,
             password: userdata.password,
         };
         const resp = await this.passwordModel.create(passToCreate);
-        console.log('ffffffffffffff', resp.dataValues);
-        return "successfully created";
+        return { message: 'successfully created' };
+    }
+    async Deletepass(id) {
+        try {
+            await this.passwordModel.destroy({ where: { id: id } });
+            return { message: 'Password Delete Successfully' };
+        }
+        catch (error) {
+            return { message: 'something went wrong' };
+        }
+        console.log(id);
     }
 };
 exports.UserService = UserService;
