@@ -20,10 +20,15 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    async postLogin(loginDto, req, res) {
+    async GetAuth(req) {
+        const jwt = req.cookies.jwt;
+        const data = await this.authService.GetAuth(jwt);
+        return data;
+    }
+    async postLogin(loginDto, res) {
         const data = await this.authService.postLogin(loginDto);
         if (data?.auth) {
-            return res.cookie("jwt", data?.token).json(data.data);
+            return res.cookie('jwt', data?.token).json(data.data);
         }
         else {
             return res.json(data);
@@ -36,12 +41,18 @@ let AuthController = class AuthController {
 };
 exports.AuthController = AuthController;
 __decorate([
+    (0, common_1.Get)('/'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "GetAuth", null);
+__decorate([
     (0, common_1.Post)('/login'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Req)()),
-    __param(2, (0, common_1.Res)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "postLogin", null);
 __decorate([

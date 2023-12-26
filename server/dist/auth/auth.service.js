@@ -49,6 +49,17 @@ let AuthService = class AuthService {
         console.log('ffffffffffffff', resp.dataValues);
         return "successfully created";
     }
+    async GetAuth(jwt) {
+        try {
+            const data = await this.jwtServices.verify(jwt);
+            if (data) {
+                return { auth: true };
+            }
+        }
+        catch (error) {
+            return { auth: false };
+        }
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

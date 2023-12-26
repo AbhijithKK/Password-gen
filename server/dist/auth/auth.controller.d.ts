@@ -4,6 +4,9 @@ import { Request, Response } from 'express';
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
-    postLogin(loginDto: loginDto, req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    GetAuth(req: Request): Promise<{
+        auth: boolean;
+    }>;
+    postLogin(loginDto: loginDto, res: Response): Promise<Response<any, Record<string, any>>>;
     UserData(userdata: UserDto): Promise<string>;
 }

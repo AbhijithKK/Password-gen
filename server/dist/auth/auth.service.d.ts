@@ -7,4 +7,7 @@ export declare class AuthService {
     constructor(userdata: typeof UsrModel, jwtServices: JwtService);
     postLogin(data: loginDto): Promise<userReturnDto>;
     postUserdata(userdata: UserDto): Promise<string>;
+    GetAuth(jwt: string): Promise<{
+        auth: boolean;
+    }>;
 }

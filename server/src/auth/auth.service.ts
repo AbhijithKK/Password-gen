@@ -44,4 +44,15 @@ export class AuthService {
     
     return "successfully created"
     }
+    async GetAuth(jwt :string){
+      try {
+        const data=await this.jwtServices.verify(jwt)
+        if (data) {
+          return {auth:true}
+        }
+      } catch (error) {
+        return {auth:false}
+
+      }
+    }
 }
