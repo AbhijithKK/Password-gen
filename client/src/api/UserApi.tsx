@@ -1,9 +1,10 @@
 interface PassDto {
-  userId: Number;
+  userId: Number|undefined;
   appName: string;
   password: string;
 }
 export interface userdto{
+  id:number|undefined
     name:string
     email:string
     image:string
@@ -20,11 +21,17 @@ export const generateApi = async ({
   password,
   userId,
 }: PassDto): Promise<string> => {
-  const { data } = await axios.post(
-    "/user/genaratepassword",{
+  console.log(appName,password,userId);
+  
+  const { data } = await axios.post("user/genaratepassword",{
     appName,
     password,
-    userId}
+    userId},
   );
   return data;
 };
+
+export const DeleteApi=async(id:number):Promise<string>=>{
+  const { data } = await axios.delete("user/deletepasswor",{params:{id}})
+  return data
+}

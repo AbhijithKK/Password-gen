@@ -1,24 +1,27 @@
 import "./Home.css";
 import centerImg from "../../assets/password-manager-vector.png";
 import { useEffect, useState } from "react";
-import { HomeApi, userdto } from "../../api/UserApi";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { DeleteApi, HomeApi, generateApi, userdto } from "../../api/UserApi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
-  const Lowercase: string =
-    "abcdefghijklmnopqrstuvwxyz";
-  const Uppercase: string =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const Lowercase: string = "abcdefghijklmnopqrstuvwxyz";
+  const Uppercase: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const Number: string = "0123456789";
   const Symbols: string = "!@#$%^&*()/?";
   const [LC, setLC] = useState<boolean>(true);
   const [modalOn, setModal] = useState<boolean>(false);
+  const [savemodalOn, setSaveModal] = useState<boolean>(false);
   const [UP, setUP] = useState<boolean>(false);
   const [NM, setNM] = useState<boolean>(false);
   const [SY, setSY] = useState<boolean>(false);
+  const [PassName, setPassName] = useState<string>("");
   const [RNG, setRNG] = useState<string>("8");
   const [NewPass, setNewPass] = useState<string>("");
+  const [userData, setUserData] = useState<userdto>();
+  const [userPass, setPassData] = useState<any[]>([]);
+  const [refresh, setRefresh] = useState<boolean>(false);
   const GenPass = () => {
     let totalValues = "";
     if (LC) {
@@ -37,40 +40,60 @@ const Home = () => {
     let tempPassword = "";
     for (let i = 0; i < lng; i++) {
       let chatIntex = Math.round(Math.random() * totalValues.length);
-      tempPassword +=totalValues.charAt(chatIntex)
+      tempPassword += totalValues.charAt(chatIntex);
     }
-    setNewPass(tempPassword)
-    
+    setNewPass(tempPassword);
   };
-  const [userData,setUserData]=useState<userdto>()
-  const [userPass,setPassData]=useState<any[]>([])
-  console.log(userPass);
-  
   const ApiHelper = async () => {
     const data = await HomeApi();
-    // console.log(data);
-    
-    setUserData(data)
-    setPassData(data?.savedPasswords)
+    setUserData(data);
+    setPassData(data?.savedPasswords);
   };
   useEffect(() => {
     ApiHelper();
-  }, []);
-  const CopyText=async()=>{
+  }, [refresh]);
+  const CopyText = async () => {
     if (NewPass.length) {
-        
-        navigator.clipboard.writeText(NewPass)
-        toast("Password copy Successfully");
+      navigator.clipboard.writeText(NewPass);
+      toast("Password copy Successfully");
     }
-  }
+  };
 
-  const SavedPass=()=>{
-    setModal(!modalOn)
-    
-  }
-  const SavePass=()=>{
-    setModal(!modalOn)
-  }
+  const SavedPass = () => {
+    setModal(!modalOn);
+  };
+  const SavePass = () => {
+    if (NewPass.length) {
+      setSaveModal(!savemodalOn);
+    } else {
+      toast("Generate a new password");
+    }
+  };
+  const SavePassword = async () => {
+    if (NewPass.length && PassName.trim()) {
+      const id: number | undefined = userData?.id;
+      const data: any = await generateApi({
+        appName: PassName,
+        password: NewPass,
+        userId: id,
+      });
+      setRefresh(!refresh);
+      toast(data.message);
+    } else {
+      toast("Enter a Valid Name");
+    }
+  };
+  const copyText = async (passwor: string) => {
+    await navigator.clipboard.writeText(passwor);
+    toast("Password copy successfully");
+  };
+  const DeletePass = async (id: number) => {
+    if (id) {
+      const data: any = await DeleteApi(id);
+      setRefresh(!refresh);
+      toast(data.message);
+    }
+  };
   return (
     <>
       <div className="navBar">
@@ -92,14 +115,15 @@ const Home = () => {
         <div className="genarate-pass-window">
           <p>Genarate Strong Password</p>
 
-
           <div className="range-container">
             <div className="chekbox-1">
-             
-              <div className="ranges" style={{
-                border:"1px solid blue",
-                boxShadow:"0px 3px 12px blue"
-              }}>
+              <div
+                className="ranges"
+                style={{
+                  border: "1px solid blue",
+                  boxShadow: "0px 3px 12px blue",
+                }}
+              >
                 <input
                   type="text"
                   readOnly
@@ -107,28 +131,33 @@ const Home = () => {
                   name=""
                   id=""
                   style={{
-                    outline:"none",
-                    border:"0px"
+                    outline: "none",
+                    border: "0px",
                   }}
                 />
               </div>
-              <div onClick={CopyText} className="range-num" style={{
-                border:"1px solid black",
-                marginLeft:"5px"
-                ,width:"50px",
-                cursor:"pointer !important"
-                
-              }}>
-                 <ToastContainer />
-                <p  style={{
-                   
-                    fontSize:"13px",cursor:"pointer"
-                }}>Copy</p>
+              <div
+                onClick={CopyText}
+                className="range-num"
+                style={{
+                  border: "1px solid black",
+                  marginLeft: "5px",
+                  width: "50px",
+                  cursor: "pointer !important",
+                }}
+              >
+                <ToastContainer />
+                <p
+                  style={{
+                    fontSize: "13px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Copy
+                </p>
               </div>
             </div>
           </div>
-
-
 
           <div className="supparator">
             <div>
@@ -194,35 +223,96 @@ const Home = () => {
               </div>
             </div>
           </div>
-        <div className="modal" 
-        style={{
-            display:modalOn===false ? "none": "block"
-        }} >
-        <div className="modaltitle">
-            Saved PassWords
-        </div>
-        {
-            userPass.map((val,index)=>(
-                <div key={index} className="contentmodal">
-            <div>
+          <div
+            className="modal"
+            style={{
+              display: modalOn === false ? "none" : "block",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
+              <button type="button" onClick={() => setModal(!modalOn)}>
+                X
+              </button>
+            </div>
+            <div className="modaltitle">Saved PassWords</div>
+            {userPass.map((val, index) => (
+              <div key={index} className="contentmodal">
+                <div className="passwor-name">
+                  <p>{val.appName}</p>
+                  <p>{val.password}</p>
+                </div>
+                <div className="password-btns">
+                  <p onClick={() => copyText(val.password)}>copy</p>
+                  <p onClick={() => DeletePass(val.id)}>delete</p>
+                </div>
+              </div>
+            ))}
+          </div>
 
-            <p>{val.appName}</p>
-            <p>{val.password}</p>
+          <div
+            className="modal"
+            style={{
+              display: savemodalOn === false ? "none" : "block",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
+              <button type="button" onClick={() => setSaveModal(!savemodalOn)}>
+                X
+              </button>
             </div>
-            <div>
-                <p>copy</p>
-                <p>{val.id}</p>
+            <div className="modaltitle">Saved PassWords</div>
+
+            <div
+              style={{
+                backgroundColor: "white",
+                height: "100%",
+              }}
+              className="contentmodal"
+            >
+              <div
+                style={{
+                  display: "grid",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "50%",
+                }}
+              >
+                <input className="c-m-i" type="text" readOnly value={NewPass} />
+                <input
+                  className="c-m-i"
+                  type="text"
+                  placeholder="Enter a Name "
+                  onChange={(e) => setPassName(e.target.value)}
+                  min={3}
+                  required
+                />
+                <button
+                  className="c-m-i cmi-btn"
+                  type="button"
+                  onClick={SavePassword}
+                >
+                  save
+                </button>
+              </div>
             </div>
-        </div>
-            ))
-        }
-        </div>
+          </div>
         </div>
         <div
           style={{
             marginTop: "08px",
-           
-    
           }}
           className="center-image buttonss"
         >

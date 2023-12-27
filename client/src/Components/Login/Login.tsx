@@ -1,8 +1,12 @@
 import { useState } from "react";
 import "./Login.css";
 import { LoginApi } from "../../api/AuthApi";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { Link, NavigateFunction, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AuthCheckReducer } from "../../Utils/reducers";
 const Login = () => {
+  const dispatch=useDispatch()
+  
   const Nav:NavigateFunction=useNavigate()
   const [passwordType, setPassswordType] = useState<string>("password");
   const [password, setPasssword] = useState<string>("");
@@ -17,12 +21,20 @@ const Login = () => {
   };
   const Submit=async()=>{
     if (password.trim()&&email.trim()) {
-        const data=await LoginApi(email,password)
-        console.log(data);
-        Nav('/home')
+        const data:any=await LoginApi(email,password)
+        console.log(data?.auth);
+        
+       if (data?.auth===true) {
+        dispatch(AuthCheckReducer({auth:data.auth}))
+        
+        
+         Nav('/home')
+       }else{
+        setError('Enter Proper Email address and Password')
+       }
         
     }else{
-        setError('Enter Proper Email address and Password')
+        setError('Invald Username or Password')
     }
     
   }
@@ -52,6 +64,7 @@ const Login = () => {
           <button 
           type="button"
           onClick={Submit}>Login</button>
+          <Link to='/signup'>Create a new Account</Link>
         </div>
       </div>
     </>

@@ -17,14 +17,16 @@ const SignUp = () => {
       setPassswordType("password");
     }
   };
-  console.log(image);
+
   
-  const Submit=async()=>{
+  const Submitd=async()=>{
     if (password.trim()&&email.trim()&&name.trim()) {
         const data:any=await SignUpApi({name,email,password,image})
         console.log(data?.message);
-        if (data.statusCode===200) {
+        if (data.status) {
             Nav('/')
+        }else{
+          setError(data.message)
         }
         
     }else{
@@ -73,7 +75,7 @@ const SignUp = () => {
           
           <button 
           type="button"
-          onClick={Submit}>Sign Up</button>
+          onClick={Submitd}>Sign Up</button>
         </div>
       </div>
     </>
