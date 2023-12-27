@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Login.css";
 import { LoginApi } from "../../api/AuthApi";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AuthCheckReducer } from "../../Utils/reducers";
 const Login = () => {
   const dispatch=useDispatch()

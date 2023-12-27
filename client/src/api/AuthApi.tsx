@@ -33,3 +33,7 @@ export const AuthApi=async()=>{
   const { data } = await axios.get("auth/");
   return data;
 }
+export const LogoutApi=async()=>{
+  const { data } = await axios.get("auth/logout");
+  return data;
+}

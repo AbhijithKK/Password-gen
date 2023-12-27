@@ -3,12 +3,12 @@ import Home from "./Components/Home/Home";
 import Login from "./Components/Login/Login";
 import SignUp from "./Components/Signup/SignUp";
 import { AuthApi } from "./api/AuthApi";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthCheckReducer } from "./Utils/reducers";
 
 function App() {
-  const {refresh,auth}=useSelector((state:any)=>state.auth)
+  const {auth}=useSelector((state:any)=>state.auth)
   const dispatch=useDispatch()
   const AuthCheck = async () => {
     const data = await AuthApi();

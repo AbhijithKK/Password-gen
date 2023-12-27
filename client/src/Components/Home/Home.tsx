@@ -4,6 +4,11 @@ import { useEffect, useState } from "react";
 import { DeleteApi, HomeApi, generateApi, userdto } from "../../api/UserApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import proPic from '../../assets/60111.jpg'
+import { LogoutApi } from "../../api/AuthApi";
+import { useDispatch } from "react-redux";
+import { AuthCheckReducer } from "../../Utils/reducers";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const Lowercase: string = "abcdefghijklmnopqrstuvwxyz";
@@ -94,6 +99,13 @@ const Home = () => {
       toast(data.message);
     }
   };
+  const Dispatch=useDispatch()
+  const Nav=useNavigate()
+  const Logout=async()=>{
+    const resp=await LogoutApi()
+    Dispatch(AuthCheckReducer({auth:resp.auth}))
+    Nav('/')
+  }
   return (
     <>
       <div className="navBar">
@@ -102,10 +114,17 @@ const Home = () => {
         </div>
         <div className="Propic">
           <div className="imagess">
-            <img src="" alt="p" />
+            <img src={proPic} alt="p" />
             <p>{userData?.name}</p>
-            <img src="" alt="do" />
           </div>
+            <div className="dropdown">
+              <select name="" id="">
+                <option hidden value=""></option>
+               
+               <option onClick={Logout} value="">Log Out</option>
+               
+              </select>
+            </div>
         </div>
       </div>
       <div className="mainScreen">
