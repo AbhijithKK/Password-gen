@@ -28,14 +28,21 @@ export class AuthController {
   ) {
     const data = await this.authService.postLogin(loginDto);
     if (data?.auth) {
-      return res.cookie('jwt', data?.token).json(data.data);
+      return res.cookie('jwt', data?.token).json({auth:data.auth});
     } else {
-      return res.json(data);
+      return res.json({auth:data.auth});
     }
   }
   @Post('/signup')
   async UserData(@Body() userdata: UserDto) {
+    console.log(userdata);
+    
     const data = await this.authService.postUserdata(userdata);
     return data;
+  }
+
+  @Get('/logout')
+  async GetLogout(@Res() res: Response) {
+    res.cookie("jwt",'').json({auth:false})
   }
 }

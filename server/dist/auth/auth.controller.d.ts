@@ -8,5 +8,9 @@ export declare class AuthController {
         auth: boolean;
     }>;
     postLogin(loginDto: loginDto, res: Response): Promise<Response<any, Record<string, any>>>;
-    UserData(userdata: UserDto): Promise<string>;
+    UserData(userdata: UserDto): Promise<{
+        message: any;
+        status: boolean;
+    }>;
+    GetLogout(res: Response): Promise<void>;
 }

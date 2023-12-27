@@ -1,3 +1,6 @@
+import { Types } from 'mysql2';
+import { CHAR } from 'sequelize';
+import { CharDataType, DataType } from 'sequelize';
 import {
   Table,
   Column,
@@ -27,7 +30,7 @@ export class UsrModel extends Model {
   email: string;
 
   @Column
-  password: string;
+  password: string
 
   @Column
   image: string;

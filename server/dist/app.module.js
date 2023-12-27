@@ -37,7 +37,7 @@ exports.AppModule = AppModule = __decorate([
             jwt_1.JwtModule.register({
                 global: true,
                 secret: process.env.JWT_KEY,
-                signOptions: { expiresIn: '60s' },
+                signOptions: { expiresIn: '600s' },
             })],
         controllers: [],
         providers: [],

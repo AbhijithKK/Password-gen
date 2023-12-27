@@ -3,7 +3,7 @@ import { UserDto, loginDto, userReturnDto } from './auth.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { UsrModel } from 'src/database/Models/User.model';
 import { JwtService } from '@nestjs/jwt';
-import { log } from 'console';
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class AuthService {
@@ -18,12 +18,18 @@ export class AuthService {
       });
 
       if (datq?.dataValues != undefined) {
+        const passCheck=await bcrypt.compare(data.password,datq.dataValues.password)
+        if (passCheck) {
         const jwtData = await this.jwtServices.sign(
           { data: datq.dataValues.id },
           { secret: process.env.JWT_KEY },
         );
+        
         return { auth: true, data: datq?.dataValues, token: jwtData };
       }
+    }else{
+      return { auth: false };
+    }
     } catch (error) {
       return { auth: false };
     }
@@ -31,18 +37,27 @@ export class AuthService {
     return { auth: false };
   }
   async postUserdata(userdata:UserDto){
+    try {
+      
     
+
+    const password:string=await bcrypt.hash(userdata.password,10)
+
     const userToCreate={
         id:null,
         name:userdata.name,
         email:userdata.email,
-        password:userdata.password,
+        password:password,
         image:userdata.image
-    }
+    }    
     const resp=await  this.userdata.create(userToCreate)
-    console.log('ffffffffffffff',resp.dataValues);
+   
     
-    return "successfully created"
+    return {message:"successfully created",status:true}
+  } catch (error) {
+   return {message:error.errors[0].message,status:false}
+      
+  }
     }
     async GetAuth(jwt :string){
       try {

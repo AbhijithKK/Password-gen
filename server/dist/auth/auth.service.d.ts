@@ -6,7 +6,10 @@ export declare class AuthService {
     private jwtServices;
     constructor(userdata: typeof UsrModel, jwtServices: JwtService);
     postLogin(data: loginDto): Promise<userReturnDto>;
-    postUserdata(userdata: UserDto): Promise<string>;
+    postUserdata(userdata: UserDto): Promise<{
+        message: any;
+        status: boolean;
+    }>;
     GetAuth(jwt: string): Promise<{
         auth: boolean;
     }>;

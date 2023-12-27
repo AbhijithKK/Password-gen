@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const User_model_1 = require("../database/Models/User.model");
 const jwt_1 = require("@nestjs/jwt");
+const bcrypt = require("bcrypt");
 let AuthService = class AuthService {
     constructor(userdata, jwtServices) {
         this.userdata = userdata;
@@ -28,8 +29,14 @@ let AuthService = class AuthService {
                 where: { email: data.email },
             });
             if (datq?.dataValues != undefined) {
-                const jwtData = await this.jwtServices.sign({ data: datq.dataValues.id }, { secret: process.env.JWT_KEY });
-                return { auth: true, data: datq?.dataValues, token: jwtData };
+                const passCheck = await bcrypt.compare(data.password, datq.dataValues.password);
+                if (passCheck) {
+                    const jwtData = await this.jwtServices.sign({ data: datq.dataValues.id }, { secret: process.env.JWT_KEY });
+                    return { auth: true, data: datq?.dataValues, token: jwtData };
+                }
+            }
+            else {
+                return { auth: false };
             }
         }
         catch (error) {
@@ -38,16 +45,21 @@ let AuthService = class AuthService {
         return { auth: false };
     }
     async postUserdata(userdata) {
-        const userToCreate = {
-            id: null,
-            name: userdata.name,
-            email: userdata.email,
-            password: userdata.password,
-            image: userdata.image
-        };
-        const resp = await this.userdata.create(userToCreate);
-        console.log('ffffffffffffff', resp.dataValues);
-        return "successfully created";
+        try {
+            const password = await bcrypt.hash(userdata.password, 10);
+            const userToCreate = {
+                id: null,
+                name: userdata.name,
+                email: userdata.email,
+                password: password,
+                image: userdata.image
+            };
+            const resp = await this.userdata.create(userToCreate);
+            return { message: "successfully created", status: true };
+        }
+        catch (error) {
+            return { message: error.errors[0].message, status: false };
+        }
     }
     async GetAuth(jwt) {
         try {
