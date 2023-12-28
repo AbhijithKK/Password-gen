@@ -10,6 +10,25 @@ export declare class AuthService {
         message: any;
         status: boolean;
     }>;
+    postGUserdata(userdata: UserDto): Promise<{
+        auth: boolean;
+        data: any;
+        token: string;
+        message?: undefined;
+        status?: undefined;
+    } | {
+        auth: boolean;
+        data?: undefined;
+        token?: undefined;
+        message?: undefined;
+        status?: undefined;
+    } | {
+        message: any;
+        status: boolean;
+        auth?: undefined;
+        data?: undefined;
+        token?: undefined;
+    }>;
     GetAuth(jwt: string): Promise<{
         auth: boolean;
     }>;

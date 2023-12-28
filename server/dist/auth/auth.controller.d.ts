@@ -12,5 +12,6 @@ export declare class AuthController {
         message: any;
         status: boolean;
     }>;
+    GUserData(userdata: UserDto, res: Response): Promise<Response<any, Record<string, any>>>;
     GetLogout(res: Response): Promise<void>;
 }

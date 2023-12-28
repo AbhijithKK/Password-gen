@@ -68,6 +68,55 @@ let AuthService = class AuthService {
             return { message: error.errors[0].message, status: false };
         }
     }
+    async postGUserdata(userdata) {
+        try {
+            const datq = await this.userdata.findOne({
+                where: { email: userdata.email },
+            });
+            if (datq?.dataValues != undefined) {
+                cloudinary_1.v2.config({
+                    cloud_name: process.env.CLOUD_NAME,
+                    api_key: process.env.CLOUD_API_KEY,
+                    api_secret: process.env.CLOUD_API_SECRECT,
+                });
+                const password = await bcrypt.hash(userdata.password, 10);
+                let img = await cloudinary_1.v2.uploader.upload(userdata.image);
+                const userToCreate = {
+                    name: userdata.name,
+                    email: userdata.email,
+                    password: password,
+                    image: img.secure_url,
+                };
+                const resp = await this.userdata.create(userToCreate);
+                console.log(resp);
+                const jwtData = await this.jwtServices.sign({ data: datq.dataValues.id }, { secret: process.env.JWT_KEY });
+                return { auth: true, data: datq?.dataValues, token: jwtData };
+            }
+            else {
+                try {
+                    const datq = await this.userdata.findOne({
+                        where: { email: userdata.email },
+                    });
+                    if (datq?.dataValues != undefined) {
+                        const passCheck = await bcrypt.compare(userdata.password, datq.dataValues.password);
+                        if (passCheck) {
+                            const jwtData = await this.jwtServices.sign({ data: datq.dataValues.id }, { secret: process.env.JWT_KEY });
+                            return { auth: true, data: datq?.dataValues, token: jwtData };
+                        }
+                    }
+                    else {
+                        return { auth: false };
+                    }
+                }
+                catch (error) {
+                    return { auth: false };
+                }
+            }
+        }
+        catch (error) {
+            return { message: error?.errors[0]?.message, status: false };
+        }
+    }
     async GetAuth(jwt) {
         try {
             const data = await this.jwtServices.verify(jwt);

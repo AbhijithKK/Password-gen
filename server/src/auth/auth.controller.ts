@@ -5,8 +5,6 @@ import {
   Post,
   Req,
   Res,
-  UploadedFile,
-  UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserDto, loginDto } from './auth.dto';
@@ -45,6 +43,22 @@ export class AuthController {
   } catch (error) {
       console.log(error);
       
+  }
+  }
+  @Post('/googleauth')
+  async GUserData(@Body() userdata: UserDto,@Res() res:Response) {
+
+    try {
+    const data = await this.authService.postGUserdata(userdata);
+    if (data?.auth) {
+      return res.cookie('jwt', data?.token).json({auth:data.auth});
+    } else {
+      return res.json({auth:data.auth});
+    }
+  } catch (error) {
+      console.log(error);
+      return res.json({auth:false});
+
   }
   }
 

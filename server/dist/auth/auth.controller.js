@@ -43,6 +43,21 @@ let AuthController = class AuthController {
             console.log(error);
         }
     }
+    async GUserData(userdata, res) {
+        try {
+            const data = await this.authService.postGUserdata(userdata);
+            if (data?.auth) {
+                return res.cookie('jwt', data?.token).json({ auth: data.auth });
+            }
+            else {
+                return res.json({ auth: data.auth });
+            }
+        }
+        catch (error) {
+            console.log(error);
+            return res.json({ auth: false });
+        }
+    }
     async GetLogout(res) {
         res.cookie("jwt", '').json({ auth: false });
     }
@@ -70,6 +85,14 @@ __decorate([
     __metadata("design:paramtypes", [auth_dto_1.UserDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "UserData", null);
+__decorate([
+    (0, common_1.Post)('/googleauth'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [auth_dto_1.UserDto, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "GUserData", null);
 __decorate([
     (0, common_1.Get)('/logout'),
     __param(0, (0, common_1.Res)()),
