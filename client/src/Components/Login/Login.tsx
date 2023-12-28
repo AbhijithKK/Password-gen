@@ -82,7 +82,10 @@ const Login = () => {
           type="button"
           onClick={Submit}>Login</button>
           <Link to='/signup'>Create a new Account</Link>
-          <div>
+          <div style={{
+            marginTop:"10px",
+            marginBottom:"10px"
+          }}>
           <GoogleLogin
   onSuccess={(credentialResponse:any) => {
    const decode=jwtDecode(credentialResponse.credential)
