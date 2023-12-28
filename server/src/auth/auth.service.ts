@@ -3,7 +3,8 @@ import { UserDto, loginDto, userReturnDto } from './auth.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { UsrModel } from 'src/database/Models/User.model';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
+import { v2 as cloudinary } from 'cloudinary';
 
 @Injectable()
 export class AuthService {
@@ -18,56 +19,64 @@ export class AuthService {
       });
 
       if (datq?.dataValues != undefined) {
-        const passCheck=await bcrypt.compare(data.password,datq.dataValues.password)
-        if (passCheck) {
-        const jwtData = await this.jwtServices.sign(
-          { data: datq.dataValues.id },
-          { secret: process.env.JWT_KEY },
+        const passCheck = await bcrypt.compare(
+          data.password,
+          datq.dataValues.password,
         );
-        
-        return { auth: true, data: datq?.dataValues, token: jwtData };
+        if (passCheck) {
+          const jwtData = await this.jwtServices.sign(
+            { data: datq.dataValues.id },
+            { secret: process.env.JWT_KEY },
+          );
+
+          return { auth: true, data: datq?.dataValues, token: jwtData };
+        }
+      } else {
+        return { auth: false };
       }
-    }else{
-      return { auth: false };
-    }
     } catch (error) {
       return { auth: false };
     }
 
     return { auth: false };
   }
-  async postUserdata(userdata:UserDto){
+  async postUserdata(userdata: UserDto) {
     try {
-      
-    
+      cloudinary.config({
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.CLOUD_API_KEY,
+        api_secret: process.env.CLOUD_API_SECRECT,
+      });
 
-    const password:string=await bcrypt.hash(userdata.password,10)
+      const password: string = await bcrypt.hash(userdata.password, 10);
 
-    const userToCreate={
-        id:null,
-        name:userdata.name,
-        email:userdata.email,
-        password:password,
-        image:userdata.image
-    }    
-    const resp=await  this.userdata.create(userToCreate)
-   
-    
-    return {message:"successfully created",status:true}
-  } catch (error) {
-   return {message:error.errors[0].message,status:false}
-      
+      let img = await cloudinary.uploader.upload(userdata.image);
+
+      const userToCreate = {
+        name: userdata.name,
+        email: userdata.email,
+        password: password,
+        image: img.secure_url,
+      };
+
+      const resp = await this.userdata.create(userToCreate);
+      console.log(resp);
+
+      return { message: 'successfully created', status: true };
+    } catch (error) {
+      // console.log(error);
+
+      return { message: error.errors[0].message, status: false };
+    }
   }
-    }
-    async GetAuth(jwt :string){
-      try {
-        const data=await this.jwtServices.verify(jwt)
-        if (data) {
-          return {auth:true}
-        }
-      } catch (error) {
-        return {auth:false}
-
+  async GetAuth(jwt: string) {
+    try {
+      const data = await this.jwtServices.verify(jwt);
+      if (data) {
+        return { auth: true };
       }
+    } catch (error) {
+      return { auth: false };
     }
+  }
 }

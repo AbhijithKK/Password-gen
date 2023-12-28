@@ -1,6 +1,4 @@
-import { Types } from 'mysql2';
-import { CHAR } from 'sequelize';
-import { CharDataType, DataType } from 'sequelize';
+
 import {
   Table,
   Column,
@@ -9,6 +7,7 @@ import {
   Unique,
   IsEmail,
   PrimaryKey,
+  DataType,
 } from 'sequelize-typescript';
 
 @Table({
@@ -21,18 +20,24 @@ export class UsrModel extends Model {
   @Column
   id: number;
 
-  @Column
+  @Column({
+    type: DataType.STRING(320), // Set an appropriate length for email addresses
+  })
   name: string;
 
   @Unique
   @IsEmail
-  @Column
+  @Column({
+    type: DataType.STRING(320), // Set an appropriate length for email addresses
+  })
   email: string;
 
   @Column
   password: string
 
-  @Column
+  @Column({
+    type:DataType.TEXT
+  })
   image: string;
 }
 

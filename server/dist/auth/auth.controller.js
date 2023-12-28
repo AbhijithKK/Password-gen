@@ -35,9 +35,13 @@ let AuthController = class AuthController {
         }
     }
     async UserData(userdata) {
-        console.log(userdata);
-        const data = await this.authService.postUserdata(userdata);
-        return data;
+        try {
+            const data = await this.authService.postUserdata(userdata);
+            return data;
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     async GetLogout(res) {
         res.cookie("jwt", '').json({ auth: false });

@@ -18,6 +18,7 @@ const sequelize_1 = require("@nestjs/sequelize");
 const User_model_1 = require("../database/Models/User.model");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
+const cloudinary_1 = require("cloudinary");
 let AuthService = class AuthService {
     constructor(userdata, jwtServices) {
         this.userdata = userdata;
@@ -46,16 +47,22 @@ let AuthService = class AuthService {
     }
     async postUserdata(userdata) {
         try {
+            cloudinary_1.v2.config({
+                cloud_name: process.env.CLOUD_NAME,
+                api_key: process.env.CLOUD_API_KEY,
+                api_secret: process.env.CLOUD_API_SECRECT,
+            });
             const password = await bcrypt.hash(userdata.password, 10);
+            let img = await cloudinary_1.v2.uploader.upload(userdata.image);
             const userToCreate = {
-                id: null,
                 name: userdata.name,
                 email: userdata.email,
                 password: password,
-                image: userdata.image
+                image: img.secure_url,
             };
             const resp = await this.userdata.create(userToCreate);
-            return { message: "successfully created", status: true };
+            console.log(resp);
+            return { message: 'successfully created', status: true };
         }
         catch (error) {
             return { message: error.errors[0].message, status: false };

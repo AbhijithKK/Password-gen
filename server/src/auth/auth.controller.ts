@@ -5,10 +5,13 @@ import {
   Post,
   Req,
   Res,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserDto, loginDto } from './auth.dto';
 import { Request, Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('auth')
 export class AuthController {
@@ -35,10 +38,14 @@ export class AuthController {
   }
   @Post('/signup')
   async UserData(@Body() userdata: UserDto) {
-    console.log(userdata);
-    
+
+    try {
     const data = await this.authService.postUserdata(userdata);
     return data;
+  } catch (error) {
+      console.log(error);
+      
+  }
   }
 
   @Get('/logout')

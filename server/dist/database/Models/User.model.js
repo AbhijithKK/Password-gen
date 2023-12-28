@@ -21,13 +21,17 @@ __decorate([
     __metadata("design:type", Number)
 ], UsrModel.prototype, "id", void 0);
 __decorate([
-    sequelize_typescript_1.Column,
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING(320),
+    }),
     __metadata("design:type", String)
 ], UsrModel.prototype, "name", void 0);
 __decorate([
     sequelize_typescript_1.Unique,
     sequelize_typescript_1.IsEmail,
-    sequelize_typescript_1.Column,
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING(320),
+    }),
     __metadata("design:type", String)
 ], UsrModel.prototype, "email", void 0);
 __decorate([
@@ -35,7 +39,9 @@ __decorate([
     __metadata("design:type", String)
 ], UsrModel.prototype, "password", void 0);
 __decorate([
-    sequelize_typescript_1.Column,
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.TEXT
+    }),
     __metadata("design:type", String)
 ], UsrModel.prototype, "image", void 0);
 exports.UsrModel = UsrModel = __decorate([

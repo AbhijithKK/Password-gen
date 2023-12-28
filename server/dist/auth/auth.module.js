@@ -13,12 +13,14 @@ const auth_controller_1 = require("./auth.controller");
 const sequelize_1 = require("@nestjs/sequelize");
 const User_model_1 = require("../database/Models/User.model");
 const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [sequelize_1.SequelizeModule.forFeature([User_model_1.UsrModel]),
+            config_1.ConfigModule.forRoot({ isGlobal: true }),
             jwt_1.JwtModule.register({
                 global: true,
                 secret: 'AASDS',
