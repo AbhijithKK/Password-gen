@@ -102,10 +102,13 @@ const Home = () => {
   const Dispatch=useDispatch()
   const Nav=useNavigate()
   const Logout=async()=>{
+    
     const resp=await LogoutApi()
     Dispatch(AuthCheckReducer({auth:resp.auth}))
     Nav('/')
   }
+  console.log(userData);
+  
   return (
     <>
       <div className="navBar">
@@ -114,14 +117,14 @@ const Home = () => {
         </div>
         <div className="Propic">
           <div className="imagess">
-            <img src={proPic} alt="p" />
+            <img src={userData?.image ?  userData?.image :proPic} alt="p" />
             <p>{userData?.name}</p>
           </div>
             <div className="dropdown">
-              <select name="" id="">
+              <select onClick={Logout} name="" id="">
                 <option hidden value=""></option>
                
-               <option onClick={Logout} value="">Log Out</option>
+               <option  value="">Log Out</option>
                
               </select>
             </div>

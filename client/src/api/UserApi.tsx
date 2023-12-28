@@ -21,8 +21,6 @@ export const generateApi = async ({
   password,
   userId,
 }: PassDto): Promise<string> => {
-  console.log(appName,password,userId);
-  
   const { data } = await axios.post("user/genaratepassword",{
     appName,
     password,

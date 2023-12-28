@@ -1,9 +1,12 @@
 import { useState } from "react";
 import "./Login.css";
-import { LoginApi } from "../../api/AuthApi";
+import { GoogleSignUpApi, LoginApi } from "../../api/AuthApi";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AuthCheckReducer } from "../../Utils/reducers";
+import {  GoogleLogin } from '@react-oauth/google';
+import { JwtPayload, jwtDecode } from "jwt-decode";
+
 const Login = () => {
   const dispatch=useDispatch()
   
@@ -12,6 +15,20 @@ const Login = () => {
   const [password, setPasssword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [errorr, setError] = useState<string>("");
+
+  const GoogleApiHelp=async(data:JwtPayload)=>{
+    if (data) {
+      const datas:any=await GoogleSignUpApi({name:data.name,email:data.email,image:data.picture,password:data.sub})
+      if (datas?.auth===true) {
+        dispatch(AuthCheckReducer({auth:datas.auth}))
+         Nav('/home')
+       }else{
+        setError('Something went wrong')
+       }      
+      
+    }
+  }
+
   const HideUnHide = (e: any) => {
     if (e?.target?.checked) {
       setPassswordType("text");
@@ -65,6 +82,18 @@ const Login = () => {
           type="button"
           onClick={Submit}>Login</button>
           <Link to='/signup'>Create a new Account</Link>
+          <div>
+          <GoogleLogin
+  onSuccess={(credentialResponse:any) => {
+   const decode=jwtDecode(credentialResponse.credential)
+   console.log(decode);
+  GoogleApiHelp(decode)
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>
+          </div>
         </div>
       </div>
     </>

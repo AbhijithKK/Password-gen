@@ -1,13 +1,13 @@
 import { useState } from "react";
 import "../Login/Login.css";
 import { SignUpApi } from "../../api/AuthApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const SignUp = () => {
     const Nav=useNavigate()
   const [passwordType, setPassswordType] = useState<string>("password");
   const [password, setPasssword] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [image, setImage] = useState<any>('');
+  const [image, setImage] = useState<FileList|null|string>(null);
   const [email, setEmail] = useState<string>("");
   const [errorr, setError] = useState<string>("");
   const HideUnHide = (e: any) => {
@@ -17,12 +17,31 @@ const SignUp = () => {
       setPassswordType("password");
     }
   };
-
+  const Base64Convert=async(file:any,cb:any)=>{
+    const reader=new FileReader()
+    reader.onloadend=()=>{
+      cb(reader.result)
+    }
+    reader.readAsDataURL(file)
+  }
   
-  const Submitd=async()=>{
+const BaseConverter=async()=>{
+  if (image) {
+    Base64Convert(image,(result:string)=>{
+      setImage(result)
+      Submitd(result)
+    })
+    
+  }else{
+    Submitd('')
+  }
+}
+  
+  const Submitd=async(image:string)=>{
+   
     if (password.trim()&&email.trim()&&name.trim()) {
+
         const data:any=await SignUpApi({name,email,password,image})
-        console.log(data?.message);
         if (data.status) {
             Nav('/')
         }else{
@@ -59,7 +78,7 @@ const SignUp = () => {
             title="Choose Image"
             placeholder="Choose Image"
             accept="jpeg,png,jpg"
-            onChange={(e) => setImage(e.target.files)}
+            onChange={(e:any) => setImage(e.target.files[0])}
             
           />
           <div className="chekboxer">
@@ -75,8 +94,10 @@ const SignUp = () => {
           
           <button 
           type="button"
-          onClick={Submitd}>Sign Up</button>
+          onClick={BaseConverter}>Sign Up</button>
+        <Link to='/'>Already have an account?</Link>
         </div>
+
       </div>
     </>
   );
