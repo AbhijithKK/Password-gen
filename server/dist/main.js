@@ -4,7 +4,6 @@ const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const common_1 = require("@nestjs/common");
 const cookieParser = require("cookie-parser");
-const multer = require("multer");
 const dotenv = require("dotenv");
 dotenv.config();
 async function bootstrap() {
@@ -15,7 +14,6 @@ async function bootstrap() {
     app.use(cookieParser());
     app.useBodyParser('json', { limit: '100mb' });
     app.useGlobalPipes(new common_1.ValidationPipe());
-    app.use(multer({ dest: './uploads' }).single('image'));
     await app.listen(7000);
 }
 bootstrap();

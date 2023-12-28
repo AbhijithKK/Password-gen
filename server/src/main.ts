@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser'
-import * as multer from 'multer'
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -16,7 +15,6 @@ async function bootstrap() {
 app.useBodyParser('json',{limit:'100mb'})
 
   app.useGlobalPipes(new ValidationPipe())
-  app.use(multer({dest:'./uploads'}).single('image'))  
   await app.listen(7000);
 }
 bootstrap();
