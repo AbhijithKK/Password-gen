@@ -121,10 +121,10 @@ const Home = () => {
             <p>{userData?.name}</p>
           </div>
             <div className="dropdown">
-              <select onClick={Logout} name="" id="">
+              <select onChange={Logout} name="" id="">
                 <option hidden value=""></option>
                
-               <option  value="">Log Out</option>
+               <option   value="">Log Out</option>
                
               </select>
             </div>
@@ -254,11 +254,18 @@ const Home = () => {
             <div
               style={{
                 display: "flex",
-                justifyContent: "flex-end",
+                
                 alignItems: "center",
+                marginLeft:"10px",
+                marginTop:"10px",
               }}
             >
-              <button type="button" onClick={() => setModal(!modalOn)}>
+              <button style={{
+                fontWeight:"bold",
+                fontSize:"10px"
+                ,border:"0px",
+
+              }} type="button" onClick={() => setModal(!modalOn)}>
                 X
               </button>
             </div>
@@ -287,11 +294,18 @@ const Home = () => {
             <div
               style={{
                 display: "flex",
-                justifyContent: "flex-end",
+                
                 alignItems: "center",
+                marginLeft:"10px",
+                marginTop:"10px",
               }}
             >
-              <button type="button" onClick={() => setSaveModal(!savemodalOn)}>
+              <button style={{
+                fontWeight:"bold",
+                fontSize:"10px"
+                ,border:"0px",
+                
+              }} type="button" onClick={() => setSaveModal(!savemodalOn)}>
                 X
               </button>
             </div>
