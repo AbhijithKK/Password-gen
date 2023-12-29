@@ -49,14 +49,18 @@ export class AuthService {
       });
 
       const password: string = await bcrypt.hash(userdata.password, 10);
-
+      console.log(userdata);
+      
+      let tempval=''
+      if (userdata.image) {
       let img = await cloudinary.uploader.upload(userdata.image);
-
+        tempval=img.secure_url
+      }
       const userToCreate = {
         name: userdata.name,
         email: userdata.email,
         password: password,
-        image: img.secure_url,
+        image: tempval,
       };
 
       const resp = await this.userdata.create(userToCreate);
@@ -71,27 +75,19 @@ export class AuthService {
   }
   async postGUserdata(userdata: UserDto) {
     try {
+      console.log(userdata);
+      
       const datq = await this.userdata.findOne({
         where: { email: userdata.email },
       });
 
-      if (datq?.dataValues != undefined) {
-       
-      cloudinary.config({
-        cloud_name: process.env.CLOUD_NAME,
-        api_key: process.env.CLOUD_API_KEY,
-        api_secret: process.env.CLOUD_API_SECRECT,
-      });
-
-      const password: string = await bcrypt.hash(userdata.password, 10);
-
-      let img = await cloudinary.uploader.upload(userdata.image);
-
+      if (datq?.dataValues == undefined) {
+      const password: string = await bcrypt.hash(userdata.password, 10);   
       const userToCreate = {
         name: userdata.name,
         email: userdata.email,
         password: password,
-        image: img.secure_url,
+        image: userdata.image,
       };
 
       const resp = await this.userdata.create(userToCreate);
@@ -136,11 +132,13 @@ export class AuthService {
   }
   async GetAuth(jwt: string) {
     try {
-      const data = await this.jwtServices.verify(jwt);
+      const data = await this.jwtServices.verify(jwt,{secret:process.env.JWT_KEY});
+      
       if (data) {
         return { auth: true };
       }
     } catch (error) {
+      
       return { auth: false };
     }
   }

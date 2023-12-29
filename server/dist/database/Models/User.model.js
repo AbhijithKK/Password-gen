@@ -39,9 +39,7 @@ __decorate([
     __metadata("design:type", String)
 ], UsrModel.prototype, "password", void 0);
 __decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.TEXT
-    }),
+    sequelize_typescript_1.Column,
     __metadata("design:type", String)
 ], UsrModel.prototype, "image", void 0);
 exports.UsrModel = UsrModel = __decorate([

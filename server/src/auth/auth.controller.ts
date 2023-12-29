@@ -48,7 +48,7 @@ export class AuthController {
   @Post('/googleauth')
   async GUserData(@Body() userdata: UserDto,@Res() res:Response) {
 
-    try {
+    try {      
     const data = await this.authService.postGUserdata(userdata);
     if (data?.auth) {
       return res.cookie('jwt', data?.token).json({auth:data.auth});

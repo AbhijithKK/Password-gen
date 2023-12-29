@@ -53,12 +53,17 @@ let AuthService = class AuthService {
                 api_secret: process.env.CLOUD_API_SECRECT,
             });
             const password = await bcrypt.hash(userdata.password, 10);
-            let img = await cloudinary_1.v2.uploader.upload(userdata.image);
+            console.log(userdata);
+            let tempval = '';
+            if (userdata.image) {
+                let img = await cloudinary_1.v2.uploader.upload(userdata.image);
+                tempval = img.secure_url;
+            }
             const userToCreate = {
                 name: userdata.name,
                 email: userdata.email,
                 password: password,
-                image: img.secure_url,
+                image: tempval,
             };
             const resp = await this.userdata.create(userToCreate);
             console.log(resp);
@@ -70,22 +75,17 @@ let AuthService = class AuthService {
     }
     async postGUserdata(userdata) {
         try {
+            console.log(userdata);
             const datq = await this.userdata.findOne({
                 where: { email: userdata.email },
             });
-            if (datq?.dataValues != undefined) {
-                cloudinary_1.v2.config({
-                    cloud_name: process.env.CLOUD_NAME,
-                    api_key: process.env.CLOUD_API_KEY,
-                    api_secret: process.env.CLOUD_API_SECRECT,
-                });
+            if (datq?.dataValues == undefined) {
                 const password = await bcrypt.hash(userdata.password, 10);
-                let img = await cloudinary_1.v2.uploader.upload(userdata.image);
                 const userToCreate = {
                     name: userdata.name,
                     email: userdata.email,
                     password: password,
-                    image: img.secure_url,
+                    image: userdata.image,
                 };
                 const resp = await this.userdata.create(userToCreate);
                 console.log(resp);
@@ -119,7 +119,7 @@ let AuthService = class AuthService {
     }
     async GetAuth(jwt) {
         try {
-            const data = await this.jwtServices.verify(jwt);
+            const data = await this.jwtServices.verify(jwt, { secret: process.env.JWT_KEY });
             if (data) {
                 return { auth: true };
             }

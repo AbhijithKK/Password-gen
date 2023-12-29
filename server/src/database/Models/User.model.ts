@@ -35,9 +35,7 @@ export class UsrModel extends Model {
   @Column
   password: string
 
-  @Column({
-    type:DataType.TEXT
-  })
+  @Column
   image: string;
 }
 
