@@ -17,7 +17,6 @@ function App() {
   useEffect(() => {
     AuthCheck();
   }, []);
-  console.log(auth);
   
   return (
     <>
@@ -27,12 +26,16 @@ function App() {
           {auth &&
           <>
             <Route path="/home" element={<Home />} />
+            <Route path="*" element={<Navigate to='/home'/>} />
             <Route path="/" element={<Navigate to='/home'/>} />
+            <Route path="/*" element={<Navigate to='/home'/>} />
             <Route path="/signup" element={<Navigate to='/home'/>} />
           </>
             }
           {!auth &&
-          <>
+          <> 
+          <Route path="/*" element={<Navigate to='/'/>} />
+
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
             <Route path="/home" element={<Navigate to='/'/>} />

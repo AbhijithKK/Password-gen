@@ -21,7 +21,6 @@ const AuthSlice=createSlice({
         AuthCheckReducer:(state,action)=>{
             state.refresh=!state.refresh
             state.auth=action.payload.auth
-            console.log('reff',state.refresh,state.auth);
         }
     }
 })

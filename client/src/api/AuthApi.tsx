@@ -19,7 +19,6 @@ export const SignUpApi = async ({
   password,
   image,
 }: SignUpDto): Promise<string> => {
-  console.log(name, email, password, image);
   try {
     const { data } = await axios.post(
       "auth/signup",
@@ -36,12 +35,10 @@ export const SignUpApi = async ({
         withCredentials: true,
       }
     );
-    console.log(data,'data');
     
     return data;
   } catch (e) {
-    console.log(e);
-    return "";
+    return "something went wrong "
   }
 };
 
@@ -62,7 +59,6 @@ export const GoogleSignUpApi = async ({
   password,
   image,
 }: SignUpDto): Promise<string|boolean> => {
-  console.log(name, email, password, image);
   try {
     const { data } = await axios.post(
       "auth/googleauth",

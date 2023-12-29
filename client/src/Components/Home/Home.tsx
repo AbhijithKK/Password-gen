@@ -107,7 +107,6 @@ const Home = () => {
     Dispatch(AuthCheckReducer({auth:resp.auth}))
     Nav('/')
   }
-  console.log(userData);
   
   return (
     <>

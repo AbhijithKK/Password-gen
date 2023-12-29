@@ -1,11 +1,12 @@
-import { useState } from "react";
+import {  useState } from "react";
 import "./Login.css";
-import { GoogleSignUpApi, LoginApi } from "../../api/AuthApi";
+import {  GoogleSignUpApi, LoginApi } from "../../api/AuthApi";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AuthCheckReducer } from "../../Utils/reducers";
 import {  GoogleLogin } from '@react-oauth/google';
 import { JwtPayload, jwtDecode } from "jwt-decode";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   const dispatch=useDispatch()
@@ -39,7 +40,6 @@ const Login = () => {
   const Submit=async()=>{
     if (password.trim()&&email.trim()) {
         const data:any=await LoginApi(email,password)
-        console.log(data?.auth);
         
        if (data?.auth===true) {
         dispatch(AuthCheckReducer({auth:data.auth}))
@@ -55,6 +55,7 @@ const Login = () => {
     }
     
   }
+  
   return (
     <>
       <div className="main-container">
@@ -89,13 +90,12 @@ const Login = () => {
           <GoogleLogin
   onSuccess={(credentialResponse:any) => {
    const decode=jwtDecode(credentialResponse.credential)
-   console.log(decode);
   GoogleApiHelp(decode)
   }}
   onError={() => {
-    console.log('Login Failed');
-  }}
+toast('Login Failed')  }}
 />
+<ToastContainer/>
           </div>
         </div>
       </div>
