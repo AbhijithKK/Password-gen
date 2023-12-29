@@ -41,7 +41,7 @@ const BaseConverter=async()=>{
    
     if (password.trim()&&email.trim()&&name.trim()) {
 
-        const data:any=await SignUpApi({name,email,password,image})
+        const data:any=await SignUpApi({name,email,password,image})        
         if (data.status) {
             Nav('/')
         }else{
