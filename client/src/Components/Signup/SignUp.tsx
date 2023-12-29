@@ -81,7 +81,9 @@ const BaseConverter=async()=>{
             onChange={(e:any) => setImage(e.target.files[0])}
             
           />
-          <div className="chekboxer">
+          <div style={{
+            marginBottom:"-50px"
+          }} className="chekboxer">
             <input type="checkbox" onChange={(e: EventInit) => HideUnHide(e)} />
           </div>
           <input
